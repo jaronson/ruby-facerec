@@ -1,3 +1,22 @@
 %section
   %h2 A Full System
   %h3 Detection + Recognition
+%section
+  %h3 Tracker
+  %ol
+    %li Partitions new and found faces, assigns numeric identifiers
+    %li Sends new faces to matcher for recognition
+    %li Deletes stale faces
+  %h3 Matcher
+  %ol
+    %li Trains or loads a recognizer
+    %li
+      When messaged:
+      %ul
+        %li Predicts a given face against the model
+        %li If the prediction is above the defined threshold, sends a match label
+        %li Otherwise, updates its model with a new face
+  %h3 Redis
+  %ol
+    %li Handles messaging
+    %li Stores images awaiting matching

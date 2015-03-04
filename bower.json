@@ -1,0 +1,20 @@
+{
+  "name": "ruby-facerec",
+  "version": "0.0.0",
+  "authors": [
+    "Josh Aronson <jparonson@gmail.com>"
+  ],
+  "description": "Ruby Facial Detection & Recognition Presentation",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "public/js/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "latest",
+    "reveal.js": "latest"
+  }
+}

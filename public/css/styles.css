@@ -1,0 +1,53 @@
+.reveal section {
+  z-index: 100;
+}
+
+.reveal footer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  padding-top: 50%;
+  z-index: 1;
+  line-height: 0.7;
+}
+
+.reveal footer cite {
+  font-size: 50%;
+}
+
+.reveal section img {
+  border: none;
+  box-shadow: none;
+}
+
+#opencv-title .images img{
+  width: 25%;
+}
+
+#opencv-title .images img:first-child {
+  margin-right: 10%;
+}
+
+#opencv-ruby-wrappers .row {
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+#opencv-ruby-wrappers a, #opencv-ruby-wrappers span{
+  font-size: 60%;
+  display: block;
+}
+
+.reveal pre {
+  display: block;
+  box-shadow: none;
+}
+
+.reveal pre code {
+  color: #666;
+  background-color: #fff;
+  max-height: none;
+  font-size: 80%;
+  line-height: 1;
+}

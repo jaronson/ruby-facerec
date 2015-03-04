@@ -1,0 +1,71 @@
+%section#opencv-title
+  %h2 OpenCV
+  %h3 and Ruby
+
+  .images
+    %img{ src: 'img/opencv_logo.svg' }
+    %img{ src: 'img/ruby_logo.svg' }
+%section
+  %h3 OpenCV
+  %p
+    Though we're mostly interested in Face Detection &amp; Recognition,
+    OpenCV is a general purpose machine learning and
+    computer vision library.
+
+  %p
+    The OpenCV core is <strong>c++</strong> with interfaces or wrappers for many languages, including
+    Python, C#, Java, Perl and Ruby.
+  %footer
+    %cite
+      For information on how OpenCV generates bindings, see <a href="http://docs.opencv.org/trunk/doc/py_tutorials/py_bindings/py_bindings_basics/py_bindings_basics.html">http://docs.opencv.org/trunk/doc/py_tutorials/py_bindings/py_bindings_basics/py_bindings_basics.html</a>
+
+%section#opencv-ruby-wrappers
+  %h3 OpenCV Ruby Wrappers
+
+  .row
+    .span6
+      %strong ruby-opencv
+      %a{ href: 'https://github.com/ruby-opencv/ruby-opencv' } github.com/ruby-opencv/ruby-opencv
+    .span6
+      %br
+      %span <strong>Good:</strong> a+ for rubyisms, abstracts underlying c++
+      %span <strong>Ugly:</strong> missing some core features, dog slow
+  .row
+    .span6
+      %strong ropencv
+      %a{ href: 'https://github.com/D-Alex/ropencv' } github.com/D-Alex/ropencv
+    .span6
+      %br
+      %span <strong>Good:</strong> always up-to-date with core, fast
+      %span <strong>Bad:</strong> much that doesn't resemble ruby as you and I know it
+  .row
+    .span6
+      %strong opencv-ffi
+      %a{ href: 'https://github.com/amarburg/opencv-ffi' } github.com/amarburg/opencv-ffi
+    .span6
+      %br
+      %span <strong>Good:</strong> ?
+      %span <strong>Bad:</strong> old, possibly unmaintained
+
+%section
+  %p ruby-opencv
+  %pre
+    %code.ruby= File.read('../../jaronson/face_match/bin/ruby-opencv-track')
+
+%section
+  %p ropencv
+  %pre
+    %code.ruby= File.read('../../jaronson/face_match/bin/ropencv-track')
+
+%section
+  %h3 The Verdict
+  %p <strong>Python</strong>
+
+  %p
+    The python bindings are managed by the core maintainers,
+    the docs are online, python's faster,
+    and images are numpy arrays.
+  %p
+    Also, isn't it nice to do something different once and a while?
+  %p
+    But for now: <strong>ropencv</strong>

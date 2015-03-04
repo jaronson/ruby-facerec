@@ -1,47 +1,75 @@
 %section
   %h2 A Brief History of Face Detection
-
-%section
-  %h3 1964: Bledsoe, Chan &amp; Bisson
-  %p
-    Bledsoe's system computed the distances between feature points, normalized over rotation, lean, tilt &amp; scale.
-  %p
-    Processed only 40 images per hour though out-performing humans at the same task.
+  %img{ src: '/img/Example_6.png' }
   %footer
     %cite
-      Thorat, Nayak &amp; Dandale
-      <a href="http://arxiv.org/pdf/1005.4263.pdf">Facial Recognition Technology: An Analysis with scope in India</a>
+      Dave Perret,
+      <a href="http://www.daveperrett.com/images/articles/2010-12-14-face-detection-with-osx-and-python/Example_6.png">Face Detection With OS X and Python</a>
 
 %section
-  %h3 1987: Sirovich &amp; Kirby
-  %h3 1991: Turk &amp; Pentland
+  %h3 1964: Origins
   %p
-    Methods were developed to first, use principal component analysis to develop sets of base features
-    on a collection of face images, and then to relate new images to these canonical sets.
+    Attempt to identify faces using normalized lengths between points and ratios of distances among facial
+    landmarks such as eyes, mouth, nose and chin.
+
+  %p
+    These methods proved fragile due not only to then-limited processing but also under
+    variant head tilt, rotation, lighting and scale.
+
+  %footer
+    %cite
+      Thorat, Nayak &amp; Dandale,
+      <a href="http://arxiv.org/pdf/1005.4263.pdf">Facial Recognition Technology: An Analysis with scope in India</a>
+    %br
+    %cite
+      M. Turk and A. Pentland
+      <a href="http://www.face-rec.org/algorithms/PCA/jcn.pdf">
+      Eigenfaces for Recognition</a>
+
+%section#history-eigenfaces
+  %h3 1991: Eigenfaces
+  .row
+    .span6
+      %p
+        Methods were developed to first, use principal component analysis to determine sets of base features
+        on a collection of face images, and then to relate new images to these canonical sets.
+    .span6
+      %img{ src: '/img/eigenface_reconstruction_opencv.png' }
 
   %footer
     %cite
       L. Sirovich and M. Kirby,
       <a href="http://www.opticsinfobase.org/josaa/abstract.cfm?uri=josaa-4-3-519">
-      <em>Low-dimensional procedure for the characterization of human faces</em></a>
+      Low-dimensional procedure for the characterization of human faces</a>
 
-%section
-  %h3 1994: Ojala, Pietikäinen, &amp; Harwood
-  %p
-    Demonstrated the use of local binary patterns histograms for texture classification and face detection
-    irrespective of lighting conditions.
+%section#history-lbp
+  %h3 1994: Local Binary Patterns Histograms
+  .row
+    .span6
+      %p
+        Demonstrated the use of local binary patterns histograms for texture classification and face detection
+        irrespective of lighting conditions.
+    .span6
+      %img{ src: '/img/lbp_yale.jpg' }
 
   %footer
     %cite
       T. Ojala, M. Pietikäinen, D. Harwood,
       <a href="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=576366&url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D576366">
-      <em>Performance evaluation of texture measures with classification based on Kullback discrimination of distributions</em></a>
+      Performance evaluation of texture measures with classification based on Kullback discrimination of distributions</a>
 
-%section
-  %h3 2001: Viola &amp; Jones
-  %p
-    Developed a learning algorithm to select key features and the subsequent application of classifiers in increasing complexity.
+%section#history-haar
+  %h3 2001: Haar Cascades
+  .row
+    .span6
+      %p
+        Developed a learning algorithm to select key features and the subsequent application of classifiers in increasing complexity.
+    .span6
+      %img{ src: '/img/haar_cascade.png' }
   %footer
     %cite
-      P. Viola and M. Jones, <a href="https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/viola-cvpr-01.pdf"><em>Rapid object detection using a boosted cascade of simple features</em></a>
+      P. Viola and M. Jones, <a href="https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/viola-cvpr-01.pdf">Rapid object detection using a boosted cascade of simple features</a>
+    %br
+    %cite
+      G. Borenstein, <a href="https://github.com/atduskgreg/Makematics/blob/master/research/haar_detection/index.md">Adam Harvey Explains Haar Detection</a>
 

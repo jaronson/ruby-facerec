@@ -1,8 +1,14 @@
 .reveal
   .slides
     %section
-      %h1 Face Detection<br/>&amp; Recognition
-      %h3 With Ruby and OpenCV
+      %h2 Face Detection<br/>&amp; Recognition
+      %h4 With Ruby and OpenCV
+      %img{ src: '/img/Example_1.png' }
+
+      %footer
+        %cite
+          Dave Parret,
+          <a href="http://www.daveperrett.com/articles/2010/12/14/face-detection-with-osx-and-python/">Face Detection With OS X and Python</a>
     %section
       = haml :'sections/about'
     %section
@@ -13,5 +19,7 @@
       = haml :'sections/face_detection'
     %section
       = haml :'sections/face_recognition'
+    %section
+      = haml :'sections/full_system'
     %section
       = haml :'sections/social'

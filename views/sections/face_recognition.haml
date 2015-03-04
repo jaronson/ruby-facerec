@@ -1,7 +1,34 @@
 %section
-  %h2 Face Recognition
-  %img{ src: '/img/face_recognition.jpg' }
-  %footer
-    %cite
-      Melanie Basich,
-      <a href="http://www.policemag.com/channel/technology/articles/2002/10/finding-a-face-in-the-crowd/page/2.aspx">Finding a Face in the Crowd</a>
+  %h2 Recognition
+%section#face-recognition-training
+  %h3 Training Data
+  .row
+    .span6
+      %strong Color FERET
+      %a{ href: 'http://www.nist.gov/itl/iad/ig/colorferet.cfm' } www.nist.gov/itl/iad/ig/colorferet.cfm
+  .row
+    .span6
+      %strong Yale Faces
+      %a{ href: 'http://vision.ucsd.edu/content/yale-face-database' } vision.ucsd.edu/content/yale-face-database
+  .row
+    .span6
+      %strong AT&amp;T Database of Faces
+      %a{ href: 'http://www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html' } www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html
+
+%section
+  %h3 Basics
+  .row
+    .span4
+      %ol
+        %li Load an image
+        %li Create a classifier
+        %li Create a recognizer
+        %li Do some fancy math
+        %li
+          For each face found
+          %ol
+            %li Get a prediction
+            %li Maybe update the recognizer?
+    .span8
+      %pre
+        %code.ruby= File.read('../../jaronson/face_match/examples/03_recognition.rb')

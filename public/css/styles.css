@@ -48,6 +48,7 @@
 }
 
 /* Sections */
+#history-origins,
 #history-eigenfaces,
 #history-lbp,
 #history-haar
@@ -78,3 +79,26 @@
   font-size: 60%;
   display: block;
 }
+
+#race-detect .boxes {
+  width: 100%;
+  height: 640px;
+  box-shadow: 2px 2px 30px #666;
+  opacity: 0.8;
+}
+
+.box {
+  height: 320px;
+  width: 33.3333%;
+  float: left;
+  background-color: #000;
+  text-align: left;
+}
+
+.box.white  { background-color: #FFFFE5; }
+.box.black  { background-color: #331A00; }
+.box.brown  { background-color: #663300; }
+.box.yellow { background-color: #FFCC33; }
+.box.red    { background-color: #99001A; }
+.box.violet { background-color: #990066; }
+

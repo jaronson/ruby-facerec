@@ -2,10 +2,18 @@
   %h2 A Full System
   %h3 Detection + Recognition
 %section
+  %h3 Objectives
+  %ol
+    %li Track unique faces within a given frame
+    %li Measure a detected face against a known set
+    %li If known, mark as such. Otherwise, train against new face
+    %li Recognize faces new and old
+%section
   %h3 Tracker
   %ol
     %li Partitions new and found faces, assigns numeric identifiers
-    %li Sends new faces to matcher for recognition
+    %li Normalizes found faces
+    %li Sends faces to matcher for recognition
     %li Deletes stale faces
   %h3 Matcher
   %ol
@@ -20,3 +28,25 @@
   %ol
     %li Handles messaging
     %li Stores images awaiting matching
+%section.text-left
+  %h3 Get the Code
+  .row
+    .span2
+      %strong this talk
+    .span10
+      %a{ href: 'https://github.com/jaronson/ruby-facerec' } https://github.com/jaronson/ruby-facerec
+  .row
+    .span2
+      %strong ruby
+    .span10
+      %a{ href: 'https://github.com/jaronson/rb-racedetect' } https://github.com/jaronson/rb-racedetect
+  .row
+    .span2
+      %strong python
+    .span10
+      %a{ href: 'https://github.com/jaronson/py-racedetect' } https://github.com/jaronson/py-racedetect
+  .row
+    .span2
+      %strong C++
+    .span10
+      %a{ href: 'https://github.com/jaronson/cracedetect' } https://github.com/jaronson/cracedetect

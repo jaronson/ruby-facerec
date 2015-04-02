@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Facial Recognition with Ruby and OpenCV</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' name='viewport'>
+    <link href='http://slidifylibraries2.googlecode.com/git/inst/libraries/widgets/bootstrap/css/bootstrap.css' rel='stylesheet' type='text/css'>
+    <link href='css/solarized_light.css' rel='stylesheet' type='text/css'>
+    <link href='js/bower_components/reveal.js/css/reveal.css' rel='stylesheet' type='text/css'>
+    <link href='js/bower_components/reveal.js/css/theme/simple.css' id='theme' rel='stylesheet' type='text/css'>
+    <link href='css/styles.css' rel='stylesheet' type='text/css'>
+  </head>
+</html>
+<body>
+  <div class='reveal'>
+    <div class='slides'>
+      <section>
+        <h2>Face Detection<br/>&amp; Recognition</h2>
+        <h4>With Ruby and OpenCV</h4>
+        <img src='/img/Example_1.png'>
+        <footer>
+          <cite>
+            Dave Parret,
+            <a href="http://www.daveperrett.com/articles/2010/12/14/face-detection-with-osx-and-python/">Face Detection With OS X and Python</a>
+          </cite>
+        </footer>
+      </section>
+      <section>
+        <section>
+          <h2>About Myself</h2>
+        </section>
+        <section>
+          <ul>
+            <li>Twenty years of software development, the last ten for money.</li>
+            <li>Attended Southern Illinois and Middle Tennessee State, receiving letters of academic probation from both.</li>
+            <li>Type 84 words per minute, error-free.</li>
+            <li>Coined the term <em>filandering</em>, which refers to a specific domain of phishing attacks.</li>
+            <li>Led software development for brand names like The Week, Dell, Unisys, AirBnb, and Wipro.</li>
+            <li>Currently in the Mid-States Art Exhibition; art has informed my work with CV.</li>
+          </ul>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>A Brief History of Face Detection</h2>
+        </section>
+        <section id='history-origins'>
+          <h3>1964: Origins</h3>
+          <div class='row'>
+            <div class='span8'>
+              <p>
+                Attempt to identify faces using normalized lengths between points and ratios of distances among facial
+                landmarks such as eyes, mouth, nose and chin.
+              </p>
+            </div>
+            <div class='span4'>
+              <img src='/img/facialrecognition.jpg'>
+            </div>
+          </div>
+          <footer>
+            <cite>
+              Thorat, Nayak &amp; Dandale,
+              <a href="http://arxiv.org/pdf/1005.4263.pdf">Facial Recognition Technology: An Analysis with scope in India</a>
+            </cite>
+            <br>
+            <cite>
+              M. Turk and A. Pentland
+              <a href="http://www.face-rec.org/algorithms/PCA/jcn.pdf">
+              Eigenfaces for Recognition</a>
+            </cite>
+          </footer>
+        </section>
+        <section id='history-eigenfaces'>
+          <h3>1991: Eigenfaces</h3>
+          <div class='row'>
+            <div class='span6'>
+              <p>
+                Methods were developed to first, use principal component analysis to determine sets of base features
+                on a collection of face images, and then to relate new images to these canonical sets.
+              </p>
+            </div>
+            <div class='span6'>
+              <img src='/img/eigenface_reconstruction_opencv.png'>
+            </div>
+          </div>
+          <footer>
+            <cite>
+              L. Sirovich and M. Kirby,
+              <a href="http://www.opticsinfobase.org/josaa/abstract.cfm?uri=josaa-4-3-519">
+              Low-dimensional procedure for the characterization of human faces</a>
+            </cite>
+          </footer>
+        </section>
+        <section id='history-lbp'>
+          <h3>1994: Local Binary Patterns Histograms</h3>
+          <div class='row'>
+            <div class='span6'>
+              <p>
+                Demonstrated the use of local binary patterns histograms for texture classification and face detection
+                irrespective of lighting conditions.
+              </p>
+            </div>
+            <div class='span6'>
+              <img src='/img/lbp_yale.jpg'>
+            </div>
+          </div>
+          <footer>
+            <cite>
+              T. Ojala, M. Pietikäinen, D. Harwood,
+              <a href="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=576366&url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D576366">
+              Performance evaluation of texture measures with classification based on Kullback discrimination of distributions</a>
+            </cite>
+          </footer>
+        </section>
+        <section id='history-haar'>
+          <h3>2001: Haar Cascades</h3>
+          <div class='row'>
+            <div class='span6'>
+              <p>
+                Developed a learning algorithm to select key features and the subsequent application of classifiers in increasing complexity.
+              </p>
+            </div>
+            <div class='span6'>
+              <img src='/img/haar_cascade.png'>
+            </div>
+          </div>
+          <footer>
+            <cite>
+              P. Viola and M. Jones, <a href="https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/viola-cvpr-01.pdf">Rapid object detection using a boosted cascade of simple features</a>
+            </cite>
+            <br>
+            <cite>
+              G. Borenstein, <a href="https://github.com/atduskgreg/Makematics/blob/master/research/haar_detection/index.md">Adam Harvey Explains Haar Detection</a>
+            </cite>
+          </footer>
+        </section>
+      </section>
+      <section>
+        <section id='opencv-title'>
+          <h2>OpenCV</h2>
+          <h3>and Ruby</h3>
+        </section>
+        <section>
+          <h3>OpenCV</h3>
+          <p>
+            Though we're mostly interested in Face Detection &amp; Recognition,
+            OpenCV is a general purpose machine learning and
+            computer vision library.
+          </p>
+          <p>
+            The OpenCV core is <strong>c++</strong> with interfaces or wrappers for many languages, including
+            Python, C#, Java, Perl and Ruby.
+          </p>
+          <footer>
+            <cite>
+              For information on how OpenCV generates bindings, see <a href="http://docs.opencv.org/trunk/doc/py_tutorials/py_bindings/py_bindings_basics/py_bindings_basics.html">http://docs.opencv.org/trunk/doc/py_tutorials/py_bindings/py_bindings_basics/py_bindings_basics.html</a>
+            </cite>
+          </footer>
+        </section>
+        <section id='opencv-ruby-wrappers'>
+          <h3>OpenCV Ruby Wrappers</h3>
+          <div class='row'>
+            <div class='span6'>
+              <strong>ruby-opencv</strong>
+              <a href='https://github.com/ruby-opencv/ruby-opencv'>github.com/ruby-opencv/ruby-opencv</a>
+            </div>
+            <div class='span6'>
+              <br>
+              <span><strong>Good:</strong> a+ for rubyisms, abstracts underlying c++</span>
+              <span><strong>Ugly:</strong> missing some core features, dog slow</span>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='span6'>
+              <strong>ropencv</strong>
+              <a href='https://github.com/D-Alex/ropencv'>github.com/D-Alex/ropencv</a>
+            </div>
+            <div class='span6'>
+              <br>
+              <span><strong>Good:</strong> always up-to-date with core, fast</span>
+              <span><strong>Bad:</strong> doesn't resemble ruby, unforgivingly tedious to work with</span>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='span6'>
+              <strong>opencv-ffi</strong>
+              <a href='https://github.com/amarburg/opencv-ffi'>github.com/amarburg/opencv-ffi</a>
+            </div>
+            <div class='span6'>
+              <br>
+              <span><strong>Good:</strong> ?</span>
+              <span><strong>Bad:</strong> old, possibly unmaintained</span>
+            </div>
+          </div>
+        </section>
+        <section>
+          <p>ruby-opencv</p>
+          <pre><code class='ruby'>#!/usr/bin/env ruby&#x000A;require File.join(File.dirname(__FILE__), 'boot')&#x000A;&#x000A;# Uses ruby-opencv, an OpenCV wrapper for Ruby&#x000A;# https://github.com/ruby-opencv/ruby-opencv&#x000A;require 'opencv'&#x000A;include OpenCV&#x000A;&#x000A;capture = CvCapture.open&#x000A;window  = GUI::Window.new('ruby-opencv', CV_WINDOW_OPENGL)&#x000A;&#x000A;# Want to use LBP? You're out of luck.&#x000A;cascade = CvHaarClassifierCascade.load('cascades/haar/frontalface_alt.xml')&#x000A;&#x000A;loop do&#x000A;  # Returns an image copy rather than modifying,&#x000A;  # but probably instantiates a new image every time&#x000A;  frame = capture.query&#x000A;&#x000A;  # Nice options hashes&#x000A;  cascade.detect_objects(frame, scale_factor: 1.3, min_neighbors: 4).each do |rect|&#x000A;&#x000A;    # No guesses as to where this rectangle will be drawn&#x000A;    frame.rectangle!(rect.top_left, rect.bottom_right, {&#x000A;      color: CvColor::Red,&#x000A;      thickness: 2&#x000A;    })&#x000A;  end&#x000A;&#x000A;  window.show_image(frame)&#x000A;&#x000A;  break if GUI.wait_key(100)&#x000A;  sleep(0.01)&#x000A;end</code></pre>
+        </section>
+        <section>
+          <p>ropencv</p>
+          <pre><code class='ruby'>#!/usr/bin/env ruby&#x000A;require File.join(File.dirname(__FILE__), 'boot')&#x000A;&#x000A;# Uses ropencv, an ffi ruby binding for OpenCV&#x000A;# https://github.com/D-Alex/ropencv&#x000A;require 'ropencv'&#x000A;include OpenCV&#x000A;&#x000A;capture = cv::VideoCapture.new(0)&#x000A;&#x000A;# Put these out here and we can get away with not instantiating any other images&#x000A;frame = cv::Mat.new&#x000A;gray  = cv::Mat.new&#x000A;&#x000A;# Wraps c++ stdlib structs and uses c++ paradigms&#x000A;faces = Std::Vector.new(cv::Rect)&#x000A;&#x000A;# Allows use of all available detection classifiers&#x000A;classifier = cv::CascadeClassifier.new&#x000A;classifier.load('cascades/lbp/frontalface.xml')&#x000A;&#x000A;loop do&#x000A;  capture.read(frame)&#x000A;&#x000A;  # Pass references to out-of-scope variables for modification&#x000A;  cv::cvt_color(frame, gray, cv::COLOR_BGR2GRAY)&#x000A;&#x000A;  # Underscores? Camelcase? Why not both?&#x000A;  cv::equalize_hist(gray, gray)&#x000A;  cv::equalizeHist(gray, gray)&#x000A;&#x000A;  # Uses arguments list rather than easily readable options hash or keyword args&#x000A;  classifier.detect_multi_scale(gray, faces, 1.3, 4)&#x000A;&#x000A;  faces.each do |face|&#x000A;    # tl == top left, br == bottom right, duh&#x000A;    cv::rectangle(frame, face.tl, face.br, cv::Scalar.new(0, 0, 255), 2)&#x000A;    #                                          ^--- wtf is this? Oh, it's red&#x000A;  end&#x000A;&#x000A;  cv::imshow('ropencv', frame)&#x000A;&#x000A;  break if 0xFF & cv::wait_key(5) == 27&#x000A;  sleep(0.01)&#x000A;end</code></pre>
+        </section>
+        <section>
+          <h3>The Verdict</h3>
+          <p><strong>Python</strong></p>
+          <p>
+            The python bindings are managed by the core maintainers,
+            the docs are online, python's faster,
+            and images are numpy arrays.
+          </p>
+          <p>
+            Also, isn't it nice to do something different once and a while?
+          </p>
+          <p>
+            But for now: <strong>ropencv</strong>
+          </p>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>Detection</h2>
+        </section>
+        <section>
+          <h3>Basics</h3>
+          <div class='row'>
+            <div class='span4'>
+              <ol>
+                <li>Load an image</li>
+                <li>Create a classifier</li>
+                <li>Do some fancy math</li>
+                <li>Draw some rectangles</li>
+              </ol>
+            </div>
+            <div class='span8'>
+              <pre><code class='ruby'>image_path = 'examples/images/karl_dean.jpg'&#x000A;normalized = cv::Mat.new&#x000A;classifier = cv::CascadeClassifier.new&#x000A;classifier.load('cascades/lbp/frontalface.xml')&#x000A;&#x000A;image = cv::imread(image_path)&#x000A;faces = Std::Vector.new(cv::Rect)&#x000A;&#x000A;cv::cvt_color(image, normalized, cv::COLOR_BGR2GRAY)&#x000A;cv::equalize_hist(normalized, normalized)&#x000A;&#x000A;classifier.detect_multi_scale(normalized, faces, 1.1, 2)&#x000A;&#x000A;faces.each do |face|&#x000A;  cv::rectangle(image,&#x000A;                face.tl,&#x000A;                face.br,&#x000A;                cv::Scalar.new(0, 0, 255), 2)&#x000A;end&#x000A;&#x000A;cv::imshow('Karl Dean', image)&#x000A;cv::wait_key(-1)</code></pre>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h3>Video</h3>
+          <div class='row'>
+            <div class='span4'>
+              <ol>
+                <li>Open the video</li>
+                <li>Create a classifier</li>
+                <li>
+                  For each frame
+                  <ol>
+                    <li>Do some fancy math</li>
+                    <li>Draw some rectangles</li>
+                  </ol>
+                </li>
+                <li>Close the video</li>
+              </ol>
+            </div>
+            <div class='span8'>
+              <pre><code class='ruby'>capture    = cv::VideoCapture.new(0)&#x000A;classifier = cv::CascadeClassifier.new&#x000A;classifier.load('cascades/lbp/frontalface.xml')&#x000A;&#x000A;frame = cv::Mat.new&#x000A;gray  = cv::Mat.new&#x000A;&#x000A;faces = Std::Vector.new(cv::Rect)&#x000A;&#x000A;classifier = cv::CascadeClassifier.new&#x000A;classifier.load('cascades/lbp/frontalface.xml')&#x000A;&#x000A;loop do&#x000A;  capture.read(frame)&#x000A;&#x000A;  cv::cvt_color(frame, gray, cv::COLOR_BGR2GRAY)&#x000A;  cv::equalize_hist(gray, gray)&#x000A;&#x000A;  classifier.detect_multi_scale(gray, faces, 1.3, 4)&#x000A;&#x000A;  faces.each do |face|&#x000A;    cv::rectangle(frame,&#x000A;                  face.tl,&#x000A;                  face.br,&#x000A;                  cv::Scalar.new(0, 0, 255), 2)&#x000A;  end&#x000A;&#x000A;  cv::imshow('ropencv', frame)&#x000A;&#x000A;  break if 0xFF & cv::wait_key(5) == 27&#x000A;  sleep(0.01)&#x000A;end</code></pre>
+            </div>
+          </div>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>Recognition</h2>
+        </section>
+        <section id='face-recognition-training'>
+          <h3>Training Data</h3>
+          <div class='row'>
+            <div class='span6'>
+              <strong>Color FERET</strong>
+              <a href='http://www.nist.gov/itl/iad/ig/colorferet.cfm'>www.nist.gov/itl/iad/ig/colorferet.cfm</a>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='span6'>
+              <strong>Yale Faces</strong>
+              <a href='http://vision.ucsd.edu/content/yale-face-database'>vision.ucsd.edu/content/yale-face-database</a>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='span6'>
+              <strong>AT&amp;T Database of Faces</strong>
+              <a href='http://www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html'>www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html</a>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h3>Basics</h3>
+          <div class='row'>
+            <div class='span4'>
+              <ol>
+                <li>Load an image</li>
+                <li>Create a classifier</li>
+                <li>Create a recognizer</li>
+                <li>Do some fancy math</li>
+                <li>
+                  For each face found
+                  <ol>
+                    <li>Get a prediction</li>
+                    <li>Maybe update the recognizer?</li>
+                  </ol>
+                </li>
+              </ol>
+            </div>
+            <div class='span8'>
+              <pre><code class='ruby'>FACE_LIMIT = 10&#x000A;&#x000A;path = '/Users/jaronson/Downloads/colorferet/dvd1/data/images'&#x000A;normalized = cv::Mat.new&#x000A;&#x000A;classifier = cv::CascadeClassifier.new&#x000A;classifier.load('cascades/lbp/frontalface.xml')&#x000A;&#x000A;recognizer = cv::createlbph_face_recognizer&#x000A;images     = Std::Vector.new(cv::Mat)&#x000A;labels     = []&#x000A;&#x000A;Dir.glob("#{path}/*").each do |dir|&#x000A;  next if ['.','..'].include?(dir)&#x000A;&#x000A;  label = File.basename(dir).to_i&#x000A;&#x000A;  Dir.glob("#{dir}/*.jpg").each do |file|&#x000A;    image = cv::imread(file, cv::IMREAD_GRAYSCALE)&#x000A;    images << image&#x000A;    labels << label&#x000A;  end&#x000A;&#x000A;  break if label == FACE_LIMIT&#x000A;end&#x000A;&#x000A;recognizer.train(images, labels)&#x000A;&#x000A;test_image = cv::imread(&#x000A;  'examples/images/karl_dean_face.jpg',&#x000A;  cv::IMREAD_GRAYSCALE)&#x000A;label      = FFI::MemoryPointer.new(:int, 16)&#x000A;confidence = FFI::MemoryPointer.new(:float, 32)&#x000A;&#x000A;recognizer.predict(test_image, label, confidence)&#x000A;&#x000A;puts "Predicted Label: #{label.read_int}"&#x000A;puts "Confidence: #{confidence.read_float}"</code></pre>
+            </div>
+          </div>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>A Full System</h2>
+          <h3>Detection + Recognition</h3>
+        </section>
+        <section>
+          <h3>Objectives</h3>
+          <ol>
+            <li>Track unique faces within a given frame</li>
+            <li>Measure a detected face against a known set</li>
+            <li>If known, mark as such. Otherwise, train against new face</li>
+            <li>Recognize faces new and old</li>
+          </ol>
+        </section>
+        <section>
+          <h3>Tracker</h3>
+          <ol>
+            <li>Partitions new and found faces, assigns numeric identifiers</li>
+            <li>Normalizes found faces</li>
+            <li>Sends faces to matcher for recognition</li>
+            <li>Deletes stale faces</li>
+          </ol>
+          <h3>Matcher</h3>
+          <ol>
+            <li>Trains or loads a recognizer</li>
+            <li>
+              When messaged:
+              <ul>
+                <li>Predicts a given face against the model</li>
+                <li>If the prediction is above the defined threshold, sends a match label</li>
+                <li>Otherwise, updates its model with a new face</li>
+              </ul>
+            </li>
+          </ol>
+          <h3>Redis</h3>
+          <ol>
+            <li>Handles messaging</li>
+            <li>Stores images awaiting matching</li>
+          </ol>
+        </section>
+        <section class='text-left'>
+          <h3>Get the Code</h3>
+          <div class='row'>
+            <div class='span2'>
+              <strong>this talk</strong>
+            </div>
+            <div class='span10'>
+              <a href='https://github.com/jaronson/ruby-facerec'>https://github.com/jaronson/ruby-facerec</a>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='span2'>
+              <strong>ruby</strong>
+            </div>
+            <div class='span10'>
+              <a href='https://github.com/jaronson/rb-racedetect'>https://github.com/jaronson/rb-racedetect</a>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='span2'>
+              <strong>python</strong>
+            </div>
+            <div class='span10'>
+              <a href='https://github.com/jaronson/py-racedetect'>https://github.com/jaronson/py-racedetect</a>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='span2'>
+              <strong>C++</strong>
+            </div>
+            <div class='span10'>
+              <a href='https://github.com/jaronson/cracedetect'>https://github.com/jaronson/cracedetect</a>
+            </div>
+          </div>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>Fin.</h2>
+        </section>
+      </section>
+    </div>
+  </div>
+  <script src='js/bower_components/jquery/dist/jquery.min.js' type='text/javascript'></script>
+  <script src='js/bower_components/reveal.js/js/reveal.js' type='text/javascript'></script>
+  <script src='http://slidifylibraries2.googlecode.com/git/inst/libraries/highlighters/highlight.js/highlight.pack.js' type='text/javascript'></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+    
+    Reveal.initialize({
+      width: 960,
+      height: '100%',
+      controls: true,
+      progress: false,
+      history:  true,
+      center:   true,
+      theme:    'simple'
+    });
+    
+    $.each($('pre'), function(i, e){
+      var h = $('.slides').height() - 100;
+      $(e).height(h);
+      $(e).find('code').height(h);
+    });
+  </script>
+</body>
